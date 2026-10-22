@@ -130,12 +130,52 @@ The producer publishes an event to Kafka, and the consumer processes it for stor
 ## Run Tests
 
 From the project root:
+## Testing and Verification
+
+### Automated Tests
+
+Run the test suite from the project root:
 
 ```powershell
 python -m pytest -v
 ```
 
-The existing test suite has passed in the development environment.
+**Latest test result:** 12 tests passed.
+
+The test suite covers:
+
+- Database insertion and duplicate-event handling
+- Database connection failure propagation
+- Event generation
+- Deduplication and invalid-event quarantine
+- Input validation, including missing fields, negative quantities, and zero prices
+
+### Live Kafka-to-PostgreSQL Verification
+
+The streaming pipeline was manually verified in the development environment.
+
+1. Started the Kafka container using Docker.
+2. Started the PostgreSQL service.
+3. Ran the Kafka consumer.
+4. Published an event to the `order_events` topic.
+5. Confirmed that the consumer processed the event and reported `result=inserted`.
+6. Queried PostgreSQL directly to verify the stored record.
+
+**Verified sample event:**
+
+| Field | Value |
+|---|---|
+| Event ID | `kafka-test-003` |
+| Order ID | `ORD-KAFKA-003` |
+| Customer ID | `CUST0001` |
+| Product ID | `P101` |
+| Quantity | 2 |
+| Unit price | 499.00 |
+| Total amount | 998.00 |
+
+The database query returned the expected record, confirming that the event was persisted and its total amount was calculated correctly.
+
+> These results reflect the tests and manual integration checks performed in the development environment. They are not a claim of production-scale load or resilience testing.
 
 ## Data Flow
 

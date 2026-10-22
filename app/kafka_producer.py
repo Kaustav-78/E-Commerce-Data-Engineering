@@ -38,10 +38,10 @@ if __name__ == "__main__":
 
     try:
         event = {
-            "event_id": "kafka-test-002",
+            "event_id": "kafka-test-003",
             "event_type": "order_created",
             "event_time": "2026-10-22T16:25:00+00:00",
-            "order_id": "ORD-KAFKA-002",
+            "order_id": "ORD-KAFKA-003",
             "customer_id": "CUST0001",
             "product_id": "P101",
             "quantity": 2,
